@@ -1,0 +1,11 @@
+﻿#pragma kernel Main
+
+RWTexture2D<float4> TempTexture;
+
+[numthreads(8, 8, 1)]
+void Main(uint3 id : SV_DispatchThreadID)
+{
+    uint x = (id.x >> 2) | ((id.y & 4) >> 1);
+    uint y = (id.x  & 3) | ((id.y & 3) << 2);
+    TempTexture[uint2(x, y)] = float4(id / 8.0, 0);
+}
